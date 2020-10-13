@@ -12,7 +12,7 @@
 int main(int argc, char const *argv[])
 {
 	pthread_t clock_hari, timer_hari, process_hari, scheduler_hari;
-
+	pthread_mutex_t mutex;
 	pthread_mutex_init(&mutex, 0);
 
 	pthread_create(&clock_hari, NULL, clock_f,NULL);

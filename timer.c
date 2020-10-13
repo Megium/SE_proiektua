@@ -1,4 +1,4 @@
-#include <stdio.h>
+		#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <pthread.h>
@@ -15,7 +15,7 @@ Megahertzio 10^6
 void *timer_f(){
 	int kont = 0;
 	int tack;
-	
+	pthread_mutex_t mutex;
 	while(1){
 		printf("Tik %d\n", kont);
 		if(tack == 1000000){
