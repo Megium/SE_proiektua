@@ -4,13 +4,13 @@
 #include <pthread.h>
 #include <time.h>
 #include <semaphore.h>
+#include "clock.h"
+#include "timer.h"
+#include "global.h"
 
-int main(int argc, char const *argv[])
-{
+void *clock_f(){
+	int tack;
 	while(1){
-
-		
-
+		tack++;
 	}
-	return 0;
 }
