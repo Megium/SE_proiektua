@@ -1,1 +1,1 @@
-void clock_f();
+void *clock_f();
