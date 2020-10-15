@@ -11,11 +11,13 @@
 sem_t sinc;
 sem_t sinc2;
 pthread_mutex_t mutex;
+volatile int MAIZT;
 
 int main(int argc, char const *argv[])
 {
 	pthread_t clock_hari, timer_hari, process_hari, scheduler_hari;
 	
+	MAIZT = atoi(argv[1]);
 	
 	pthread_mutex_init(&mutex, 0);
 	sem_init(&sinc, 1, 1);

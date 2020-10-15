@@ -13,7 +13,7 @@ Megahertzio 10^6
 */
 
 volatile int tack;
-//volatile int MAIZT;
+volatile int MAIZT;
 pthread_mutex_t mutex;
 
 void *timer_f(){
@@ -21,7 +21,7 @@ void *timer_f(){
 	
 	while(1){
 		sem_wait(&sinc2);
-		if(tack == 1000){
+		if(tack == MAIZT){
 			pthread_mutex_lock(&mutex);
 			printf("Ziklo bat pasa da\n");
 			tack = 0;
