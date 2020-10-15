@@ -8,12 +8,18 @@
 #include "timer.h"
 #include "global.h"
 
+sem_t sinc;
+sem_t sinc2;
+pthread_mutex_t mutex;
 
 int main(int argc, char const *argv[])
 {
 	pthread_t clock_hari, timer_hari, process_hari, scheduler_hari;
-	pthread_mutex_t mutex;
+	
+	
 	pthread_mutex_init(&mutex, 0);
+	sem_init(&sinc, 1, 1);
+	sem_init(&sinc2, 1, 0);
 
 	pthread_create(&clock_hari, NULL, clock_f,NULL);
 	pthread_create(&timer_hari, NULL, timer_f,NULL);
@@ -26,5 +32,6 @@ int main(int argc, char const *argv[])
 	//pthread_join(scheduler, NULL);
 
 	pthread_mutex_destroy(&mutex);
-
+	sem_destroy(&sinc);
+	sem_destroy(&sinc2);
 }

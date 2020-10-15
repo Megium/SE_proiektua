@@ -1,4 +1,4 @@
-		#include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <pthread.h>
@@ -12,20 +12,23 @@
 Megahertzio 10^6
 */
 
+volatile int tack;
+//volatile int MAIZT;
+pthread_mutex_t mutex;
+
 void *timer_f(){
-	int tack;
-	pthread_mutex_t mutex;
+	
+	
 	while(1){
-		printf("Tik %d\n", tack);
+		sem_wait(&sinc2);
 		if(tack == 1000){
-			//Megahertzio bat
-			//zerbait();
 			pthread_mutex_lock(&mutex);
 			printf("Ziklo bat pasa da\n");
 			tack = 0;
 			pthread_mutex_unlock(&mutex);
 		}
 		
+		sem_post(&sinc);
 	}
 	
 	
