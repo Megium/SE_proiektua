@@ -7,9 +7,9 @@
 #include "clock.h"
 #include "timer.h"
 #include "global.h"
+#include "processG.h"
 
 volatile int tack;
-pthread_mutex_t mutex;
 
 void *clock_f(){
 	
@@ -17,7 +17,7 @@ void *clock_f(){
 		sem_wait(&sinc);
 		pthread_mutex_lock(&mutex);
 		tack++;
-		printf("Tack %d\n", tack);
+		//printf("Tack %d\n", tack);
 		pthread_mutex_unlock(&mutex);
 
 		sem_post(&sinc2);

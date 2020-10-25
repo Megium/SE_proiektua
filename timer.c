@@ -7,14 +7,11 @@
 #include "clock.h"
 #include "timer.h"
 #include "global.h"
+#include "processG.h"
 
 /*
 Megahertzio 10^6
 */
-
-volatile int tack;
-volatile int MAIZT;
-pthread_mutex_t mutex;
 
 void *timer_f(){
 	
