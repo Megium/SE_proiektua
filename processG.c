@@ -9,7 +9,7 @@
 #include "global.h"
 #include "processG.h"
 
-void generate(int id, struct pcb *prozesu);
+
 
 struct pcb
 {
@@ -23,20 +23,19 @@ struct queue
 	int indizea;
 };
 
-struct queue ilara;
-
-ilara.indizea = 0;
-time_t t;
-
-srand((unsigned) time(&t));
+void generate(int id, struct pcb *prozesu);
 
 void *generateProcess_f(){
+	time_t t;
+	struct queue ilara;
+	ilara.indizea = 0;
 	int i = 0;
-	int t;
+	int d;
+	srand((unsigned) time(&t));
 	while(1){
 
-		t = rand() % MAIZT;
-		if(t!=0){
+		d = rand() % MAIZT;
+		if(d!=0){
 			struct pcb prozesu = malloc(1*sizeof(struct pcb));
 			ilara.buff[i] = generate(i, prozesu);
 			ilara.indizea++;
