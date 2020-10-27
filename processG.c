@@ -17,10 +17,10 @@ int pid;
 //aurreago gauza gehio	
 };
 
-//Prozesuak sartzeko ilara, bertan buffer bat prozesuen informazioekin.
+//Prozesuak sartzeko ilara, bertan buffer bat prozesuen informazioekin eta sorturiko prozesu kopuruarekin.
 struct queue
 {
-	struct pcb buff[];
+	struct pcb *buff;
 	int indizea;
 };
 
@@ -42,13 +42,18 @@ void *generateProcess_f(){
 	
 	while(1){
 
-		d = rand() % MAIZT;
+		d = rand() % (MAIZT);
         //Sorturiko denbora 0 bada salto, erroreak ekiditeko
 		if(d!=0){
-            //Prozesu berri bat sortu, pcb tamainakoa
-			struct pcb prozesu = malloc(1*sizeof(struct pcb));
+			sleep(d);
+            //Prozesu berri bat sortu, pcb motakoa
+			struct pcb prozesu;
+
+			//Prozesu berriari pid bat esleitu
+			prozesu.pid = i;
+
             //bufferrean sartu beharreko prozesua sortzeko deia egin
-			ilara.buff[i] = generate(i, prozesu);
+			ilara.buff[i] = prozesu;
             //eguneratu indizea
 			ilara.indizea++;
             
@@ -61,7 +66,5 @@ void *generateProcess_f(){
 
 }
 
-//Prozesu berri bat sortu, pcb motako struct berri bat eta bertan honen id-a
-void generate(int id, struct pcb *prozesu){
-	prozesu->pid = id;
-}
+
+

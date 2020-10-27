@@ -4,3 +4,8 @@
 #include <pthread.h>
 #include <time.h>
 #include <semaphore.h>
+#include "clock.h"
+#include "timer.h"
+#include "global.h"
+#include "processG.h"
+
