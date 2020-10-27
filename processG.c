@@ -8,7 +8,7 @@
 #include "timer.h"
 #include "global.h"
 #include "processG.h"
-
+#include "scheduler.h"
 
 //Prozesuaren informazioa gordetzeko
 struct pcb
@@ -24,7 +24,6 @@ struct queue
 	int indizea;
 };
 
-void generate(int id, struct pcb *prozesu);
 
 void *generateProcess_f(){
     //prozesuak sortzeko ausazko denboren hazia
@@ -42,7 +41,7 @@ void *generateProcess_f(){
 	
 	while(1){
 
-		d = rand() % (MAIZT);
+		d = rand() % (MAIZT%7);
         //Sorturiko denbora 0 bada salto, erroreak ekiditeko
 		if(d!=0){
 			sleep(d);

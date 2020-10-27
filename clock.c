@@ -8,6 +8,7 @@
 #include "timer.h"
 #include "global.h"
 #include "processG.h"
+#include "scheduler.h"
 
 volatile int tack;
 

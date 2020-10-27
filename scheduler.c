@@ -9,3 +9,13 @@
 #include "global.h"
 #include "processG.h"
 
+
+void *scheduler_f(){
+	
+	while(1){
+			sem_wait(&sche);
+			printf("-----------------Seinale bat bidali da-----------------\n");
+			
+	}
+
+}
