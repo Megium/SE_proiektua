@@ -10,20 +10,6 @@
 #include "processG.h"
 #include "scheduler.h"
 
-//Prozesuaren informazioa gordetzeko
-struct pcb
-{
-int pid;
-//aurreago gauza gehio	
-};
-
-//Prozesuak sartzeko ilara, bertan buffer bat prozesuen informazioekin eta sorturiko prozesu kopuruarekin.
-struct queue
-{
-	struct pcb *buff;
-	int indizea;
-};
-
 
 void *generateProcess_f(){
     //prozesuak sortzeko ausazko denboren hazia
@@ -37,11 +23,12 @@ void *generateProcess_f(){
     ilara.buff = malloc(MAX*sizeof(struct pcb));
 	
     int i = 0;
-	int d;
+	int d, l;
 	
 	while(1){
 
 		d = rand() % (MAIZT%7);
+		l = rand() % 10;
         //Sorturiko denbora 0 bada salto, erroreak ekiditeko
 		if(d!=0){
 			sleep(d);
@@ -50,6 +37,8 @@ void *generateProcess_f(){
 
 			//Prozesu berriari pid bat esleitu
 			prozesu.pid = i;
+			prozesu.lehentasuna = l;
+
 
             //bufferrean sartu beharreko prozesua sortzeko deia egin
 			ilara.buff[i] = prozesu;

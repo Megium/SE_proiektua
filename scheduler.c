@@ -10,12 +10,25 @@
 #include "processG.h"
 
 
+void hasieratu();
+
+struct active
+{
+	int max;
+};
+
+
 void *scheduler_f(){
-	
+	hasieratu();
 	while(1){
 			sem_wait(&sche);
 			printf("-----------------Seinale bat bidali da-----------------\n");
 			
 	}
 
+
+}
+
+void hasieratu(){
+	//Schedulerreko ilarak hasieratu eta bete
 }
