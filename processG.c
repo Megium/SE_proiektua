@@ -17,7 +17,7 @@ void *generateProcess_f(){
     srand((unsigned) time(&t));
     
     //Ilara objetua sortu eta hasieratu.
-    struct queue ilara;
+    extern struct queue ilara;
 	ilara.indizea = 0;
     //Ilararen tamaina aldakora izango denez, ilara dinamiko bat sortu behar da.
     ilara.buff = malloc(MAX*sizeof(struct pcb));
@@ -37,6 +37,7 @@ void *generateProcess_f(){
 
 			//Prozesu berriari pid bat esleitu
 			prozesu.pid = i;
+			//prozesuari lehentasun bat esleitu ausaz
 			prozesu.lehentasuna = l;
 
 

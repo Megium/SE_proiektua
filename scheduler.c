@@ -12,23 +12,37 @@
 
 void hasieratu();
 
-struct active
-{
-	int max;
-};
-
+struct pcb active[ilaraKop];
+struct pcb expired[ilaraKop];
+int sig;
 
 void *scheduler_f(){
-	hasieratu();
+	sig = 0;
 	while(1){
 			sem_wait(&sche);
-			printf("-----------------Seinale bat bidali da-----------------\n");
-			
+			printf("-----------------\n-   Scheduler   -\n-----------------\n");
+			//hasieratu(sig);
 	}
 
 
 }
 
-void hasieratu(){
+void hasieratu(int sig){
 	//Schedulerreko ilarak hasieratu eta bete
+	int max, i, j, lehen;
+	max = ilara.indizea;
+
+	if (sig == 0)
+	{
+		for (i = 0; i < max; ++i)
+		{
+			lehen = ilara.buff[i].lehentasuna;
+			active[lehen] = ilara.buff[i];
+		}
+	}else{
+		for (j = 0; j < max; ++j)
+		{
+			
+		}
+	}
 }

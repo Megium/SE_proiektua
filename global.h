@@ -5,6 +5,7 @@ extern pthread_mutex_t mutex;
 extern sem_t sche;
 extern sem_t sinc;
 extern sem_t sinc2;
+extern struct queue ilara;
 
 //Prozesuaren informazioa gordetzeko
 struct pcb
