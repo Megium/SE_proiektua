@@ -15,21 +15,27 @@ sem_t sinc2;
 
 sem_t sche;
 
+sem_t queue1;
+sem_t queue2;
+
 pthread_mutex_t mutex;
 int MAIZT;
 int MAX;//kanpotik hasieratu behar da.
-
+int POSIZIO;
 int main(int argc, char const *argv[])
 {
 	pthread_t clock_hari, timer_hari, process_hari, scheduler_hari;
 	
 	MAIZT = atoi(argv[1]);
 	MAX = atoi(argv[2]);
+	POSIZIO = 10;
 
 	pthread_mutex_init(&mutex, 0);
 	sem_init(&sche, 1, 1);
 	sem_init(&sinc, 1, 1);
 	sem_init(&sinc2, 1, 0);
+	sem_init(&queue1, 1, 1);
+	sem_init(&queue2, 1, 0);
 
 	pthread_create(&clock_hari, NULL, clock_f,NULL);
 	pthread_create(&timer_hari, NULL, timer_f,NULL);
@@ -45,4 +51,6 @@ int main(int argc, char const *argv[])
 	sem_destroy(&sche);
 	sem_destroy(&sinc);
 	sem_destroy(&sinc2);
+	sem_destroy(&queue1);
+	sem_destroy(&queue2);
 }
