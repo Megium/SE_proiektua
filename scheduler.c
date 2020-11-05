@@ -25,6 +25,9 @@ void *scheduler_f(){
 			sem_wait(&sche);
 			printf("-----------------\n-   Scheduler   -\n-----------------\n");
 			hasieratu(sig);
+
+			
+			
 	}
 
 
@@ -66,4 +69,11 @@ void hasieratu(int sig){
 		sig = 1;
 	}
 	sem_post(&queue1);
+}
+
+void prozesuak_banatu(){
+	if (sig == 1)
+	{
+		
+	}
 }

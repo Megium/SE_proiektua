@@ -29,6 +29,7 @@ void *generateProcess_f(){
 
 		d = rand() % (MAIZT%7);
 		l = rand() % POSIZIO;
+		c = rand() % 10;
         //Sorturiko denbora 0 bada salto, erroreak ekiditeko
 		if(d!=0){
 			sleep(d);
@@ -39,6 +40,8 @@ void *generateProcess_f(){
 			prozesu.pid = i;
 			//prozesuari lehentasun bat esleitu ausaz
 			prozesu.lehentasuna = l;
+			prozesu.cuantum = c;
+			prozesu.egoera = 1;
 
 			sem_wait(&queue1);
             //bufferrean sartu beharreko prozesua sortzeko deia egin

@@ -22,12 +22,16 @@ pthread_mutex_t mutex;
 int MAIZT;
 int MAX;//kanpotik hasieratu behar da.
 int POSIZIO;
+int CORE;
+int HARI;
 int main(int argc, char const *argv[])
 {
 	pthread_t clock_hari, timer_hari, process_hari, scheduler_hari;
 	
 	MAIZT = atoi(argv[1]);
 	MAX = atoi(argv[2]);
+	CORE = atoi(argv[3]);
+	HARI = atoi(argv[4]);
 	POSIZIO = 10;
 
 	pthread_mutex_init(&mutex, 0);
@@ -36,6 +40,10 @@ int main(int argc, char const *argv[])
 	sem_init(&sinc2, 1, 0);
 	sem_init(&queue1, 1, 1);
 	sem_init(&queue2, 1, 0);
+
+
+
+
 
 	pthread_create(&clock_hari, NULL, clock_f,NULL);
 	pthread_create(&timer_hari, NULL, timer_f,NULL);

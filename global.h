@@ -16,6 +16,9 @@ struct pcb
 {
 int pid;
 int lehentasuna;
+int cuantum;
+//1=zai, 2=exekuzioan, 3=
+int egoera;
 //aurreago gauza gehio	
 };
 
@@ -30,4 +33,19 @@ struct priority
 {
 	int zenbat;
 	struct pcb zerrenda[20];
+};
+
+
+//Prozesagailearen egitura.
+struct haria
+{
+	bool erabilgarri;
+};
+struct core
+{
+	struct haria harikop[];
+};
+struct cpu
+{
+	struct core korekop[];
 };
