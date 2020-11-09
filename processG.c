@@ -45,7 +45,7 @@ void *generateProcess_f(){
 
 			sem_wait(&queue1);
             //bufferrean sartu beharreko prozesua sortzeko deia egin
-			ilara.buff[i] = prozesu;
+			ilara.buff[i%MAX] = prozesu;
             //eguneratu indizea
 			ilara.indizea++;
             sem_post(&queue2);

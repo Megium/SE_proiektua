@@ -2,8 +2,10 @@ extern volatile int tack;
 extern int MAIZT;
 extern int MAX;
 extern int POSIZIO;
+extern int CORE;
+extern int HARI;
 extern pthread_mutex_t mutex;
-extern sem_t sche;
+extern sem_t sche;ººº
 extern sem_t sinc;
 extern sem_t sinc2;
 extern sem_t queue1;
@@ -39,13 +41,15 @@ struct priority
 //Prozesagailearen egitura.
 struct haria
 {
+	int hariID;
 	bool erabilgarri;
 };
 struct core
 {
-	struct haria harikop[];
+	int coreID
+	struct haria *harikop;
 };
 struct cpu
 {
-	struct core korekop[];
+	struct core *corekop;
 };
