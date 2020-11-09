@@ -9,6 +9,7 @@
 #include "global.h"
 #include "processG.h"
 #include "scheduler.h"
+#include "stdbool.h"
 
 sem_t sinc;
 sem_t sinc2;
@@ -49,7 +50,9 @@ int main(int argc, char const *argv[]){
 	for (int i = 0; i < CORE; ++i)
 	{
 		prozesagailu.corekop[i].coreID = i;
-		prozesagailu.corekop[i].harikop = malloc(HARI*sizeof(struct hari));
+		prozesagailu.corekop[i].zein = 1;
+		prozesagailu.corekop[i].nun = 0;
+		prozesagailu.corekop[i].harikop = malloc(HARI*sizeof(struct haria));
 
 		for (int j = 0; j < HARI; ++j)
 		{

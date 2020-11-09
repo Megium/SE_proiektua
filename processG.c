@@ -9,6 +9,7 @@
 #include "global.h"
 #include "processG.h"
 #include "scheduler.h"
+#include "stdbool.h"
 
 
 void *generateProcess_f(){
@@ -23,7 +24,7 @@ void *generateProcess_f(){
     ilara.buff = malloc(MAX*sizeof(struct pcb));
 	
     int i = 0;
-	int d, l;
+	int d, l, c;
 	
 	while(1){
 
@@ -47,7 +48,11 @@ void *generateProcess_f(){
             //bufferrean sartu beharreko prozesua sortzeko deia egin
 			ilara.buff[i%MAX] = prozesu;
             //eguneratu indizea
-			ilara.indizea++;
+			if(ilara.indizea == MAX){
+				ilara.indizea = 0;
+			}else{
+				ilara.indizea++;
+			}
             sem_post(&queue2);
 			printf("%d. prozesua sortu da.\n", i);
 			i++;
