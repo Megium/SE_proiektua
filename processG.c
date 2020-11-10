@@ -9,8 +9,11 @@
 #include "global.h"
 #include "processG.h"
 #include "scheduler.h"
+#include "coretimer.h"
+#include "coreWork.h"
 #include "stdbool.h"
 
+volatile struct queue ilara;
 
 void *generateProcess_f(){
     //prozesuak sortzeko ausazko denboren hazia
@@ -18,14 +21,14 @@ void *generateProcess_f(){
     srand((unsigned) time(&t));
     
     //Ilara objetua sortu eta hasieratu.
-    extern struct queue ilara;
+    
 	ilara.indizea = 0;
     //Ilararen tamaina aldakora izango denez, ilara dinamiko bat sortu behar da.
     ilara.buff = malloc(MAX*sizeof(struct pcb));
 	
     int i = 0;
-	int d, l, c;
-	
+	int d, l, c, k;
+	k=0;
 	while(1){
 
 		d = rand() % (MAIZT%7);
@@ -41,21 +44,36 @@ void *generateProcess_f(){
 			prozesu.pid = i;
 			//prozesuari lehentasun bat esleitu ausaz
 			prozesu.lehentasuna = l;
-			prozesu.cuantum = c;
+			prozesu.iraupena = c;
 			prozesu.egoera = 1;
+			prozesu.pasatakoD = 0;
+			prozesu.erabilera = 0;
 
-			sem_wait(&queue1);
+			pthread_mutex_lock(&mutex2);
             //bufferrean sartu beharreko prozesua sortzeko deia egin
-			ilara.buff[i%MAX] = prozesu;
+            while(k==0){
+            	if (ilara.buff[i%MAX].erabilera == 1)
+            	{
+            		ilara.buff[i%MAX] = prozesu;
+            		gorde(i%CORE, i);
+            		k=1;
+            		if(ilara.indizea == MAX){
+						ilara.indizea = 0;
+					}else{
+						ilara.indizea++;
+					}
+            	}else{
+            		i++;
+            	}
+            }
+			k=0;
+
+
             //eguneratu indizea
-			if(ilara.indizea == MAX){
-				ilara.indizea = 0;
-			}else{
-				ilara.indizea++;
-			}
-            sem_post(&queue2);
+			
+            pthread_mutex_unlock(&mutex2);
 			printf("%d. prozesua sortu da.\n", i);
-			i++;
+			
 		}
 		
 	}
@@ -63,5 +81,26 @@ void *generateProcess_f(){
 
 }
 
+void gorde(int core, int proz){
+
+	if (prozesagailu.corekop[core].zein == 1){
+		if (ilara.buff[proz].lehentasuna > prozesagailu.corekop[core].nun){
+			prozesagailu.corekop[core].wait1[ilara.buff[proz].lehentasuna].zerrenda[prozesagailu.corekop[core].wait1[ilara.buff[proz].lehentasuna].zenbat] = ilara.buff[proz];
+			prozesagailu.corekop[core].wait1[ilara.buff[proz].lehentasuna].zenbat++;
+		}else{
+			prozesagailu.corekop[core].wait2[ilara.buff[proz].lehentasuna].zerrenda[prozesagailu.corekop[core].wait2[ilara.buff[proz].lehentasuna].zenbat] = ilara.buff[proz];
+			prozesagailu.corekop[core].wait2[ilara.buff[proz].lehentasuna].zenbat++;
+		}
+
+	}else{
+		if (ilara.buff[proz].lehentasuna > prozesagailu.corekop[core].nun){
+			prozesagailu.corekop[core].wait2[ilara.buff[proz].lehentasuna].zerrenda[prozesagailu.corekop[core].wait2[ilara.buff[proz].lehentasuna].zenbat] = ilara.buff[proz];
+			prozesagailu.corekop[core].wait2[ilara.buff[proz].lehentasuna].zenbat++;
+		}else{
+			prozesagailu.corekop[core].wait1[ilara.buff[proz].lehentasuna].zerrenda[prozesagailu.corekop[core].wait1[ilara.buff[proz].lehentasuna].zenbat] = ilara.buff[proz];
+			prozesagailu.corekop[core].wait1[ilara.buff[proz].lehentasuna].zenbat++;
+		}
+	}
+}
 
 

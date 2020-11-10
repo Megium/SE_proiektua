@@ -9,17 +9,17 @@
 #include "global.h"
 #include "processG.h"
 #include "scheduler.h"
+#include "coretimer.h"
+#include "coreWork.h"
 #include "stdbool.h"
 
 sem_t sinc;
-sem_t sinc2;
+sem_t coreT;
 
 sem_t sche;
 
-sem_t queue1;
-sem_t queue2;
-
 pthread_mutex_t mutex;
+pthread_mutex_t mutex2;
 int MAIZT;
 int MAX;//kanpotik hasieratu behar da.
 int POSIZIO;
@@ -30,7 +30,7 @@ struct cpu prozesagailu;
 
 int main(int argc, char const *argv[]){
 	
-	pthread_t clock_hari, timer_hari, process_hari, scheduler_hari;
+	pthread_t clock_hari, timer_hari, process_hari, scheduler_hari, timer2_hari, core_hari;
 	
 	MAIZT = atoi(argv[1]);
 	MAX = atoi(argv[2]);
@@ -39,11 +39,10 @@ int main(int argc, char const *argv[]){
 	POSIZIO = 10;
 
 	pthread_mutex_init(&mutex, 0);
+	pthread_mutex_init(&mutex2, 0);
 	sem_init(&sche, 1, 1);
-	sem_init(&sinc, 1, 1);
-	sem_init(&sinc2, 1, 0);
-	sem_init(&queue1, 1, 1);
-	sem_init(&queue2, 1, 0);
+	sem_init(&sinc, 1, 2);
+	sem_init(&coreT, 1, 1);
 
 	prozesagailu.corekop = malloc(CORE*sizeof(struct core));
 
@@ -65,16 +64,19 @@ int main(int argc, char const *argv[]){
 	pthread_create(&timer_hari, NULL, timer_f,NULL);
 	pthread_create(&process_hari, NULL, generateProcess_f, NULL);
 	pthread_create(&scheduler_hari, NULL, scheduler_f, NULL);
+	pthread_create(&timer2_hari, NULL, coretimer_f, NULL);
+	pthread_create(&core_hari, NULL, core_f, NULL);
 	
 	pthread_join(clock_hari, NULL);
 	pthread_join(timer_hari, NULL);
 	pthread_join(process_hari, NULL);
 	pthread_join(scheduler_hari, NULL);
+	pthread_join(timer2_hari, NULL);
+	pthread_join(core_hari, NULL);
 
 	pthread_mutex_destroy(&mutex);
+	pthread_mutex_destroy(&mutex2);
 	sem_destroy(&sche);
 	sem_destroy(&sinc);
-	sem_destroy(&sinc2);
-	sem_destroy(&queue1);
-	sem_destroy(&queue2);
+	sem_destroy(&coreT);
 }

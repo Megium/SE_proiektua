@@ -15,13 +15,14 @@ volatile int tack;
 void *clock_f(){
 	
 	while(1){
-		sem_wait(&sinc);
+		sem_post(&sinc);
+		sem_post(&sinc);
 		pthread_mutex_lock(&mutex);
 		tack++;
 		//printf("Tack %d\n", tack);
 		pthread_mutex_unlock(&mutex);
 
-		sem_post(&sinc2);
+		sem_wait(&sinc);
 
 		
 	}

@@ -5,12 +5,11 @@ extern int POSIZIO;
 extern int CORE;
 extern int HARI;
 extern pthread_mutex_t mutex;
+extern pthread_mutex_t mutex2;
 extern sem_t sche;
 extern sem_t sinc;
-extern sem_t sinc2;
-extern sem_t queue1;
-extern sem_t queue2;
-extern struct queue ilara;
+extern sem_t coreT;
+extern volatile struct queue ilara;
 extern struct cpu prozesagailu;
 
 
@@ -19,9 +18,11 @@ struct pcb
 {
 int pid;
 int lehentasuna;
-int cuantum;
+int iraupena;
 //1=zai, 2=exekuzioan, 3=Blokeatuta
 int egoera;
+int erabilera;
+int pasatakoD;
 //aurreago gauza gehio	
 };
 
