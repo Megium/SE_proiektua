@@ -9,8 +9,6 @@
 #include "global.h"
 #include "processG.h"
 #include "scheduler.h"
-#include "coretimer.h"
-#include "coreWork.h"
 #include "stdbool.h"
 
 sem_t sinc;
@@ -29,9 +27,10 @@ int QUAN;
 
 struct cpu prozesagailu;
 
+
 int main(int argc, char const *argv[]){
 	
-	pthread_t clock_hari, timer_hari, process_hari, scheduler_hari, timer2_hari, core_hari;
+	pthread_t clock_hari, timer_hari, process_hari, scheduler_hari;
 	
 	MAIZT = atoi(argv[1]);
 	MAX = atoi(argv[2]);
@@ -68,15 +67,11 @@ int main(int argc, char const *argv[]){
 	pthread_create(&timer_hari, NULL, timer_f,NULL);
 	pthread_create(&process_hari, NULL, generateProcess_f, NULL);
 	pthread_create(&scheduler_hari, NULL, scheduler_f, NULL);
-	pthread_create(&timer2_hari, NULL, coretimer_f, NULL);
-	pthread_create(&core_hari, NULL, core_f, NULL);
 	
 	pthread_join(clock_hari, NULL);
 	pthread_join(timer_hari, NULL);
 	pthread_join(process_hari, NULL);
 	pthread_join(scheduler_hari, NULL);
-	pthread_join(timer2_hari, NULL);
-	pthread_join(core_hari, NULL);
 
 	pthread_mutex_destroy(&mutex);
 	pthread_mutex_destroy(&mutex2);

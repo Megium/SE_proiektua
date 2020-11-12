@@ -1,1 +1,0 @@
-void *coretimer_f();

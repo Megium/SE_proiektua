@@ -9,8 +9,6 @@
 #include "global.h"
 #include "processG.h"
 #include "scheduler.h"
-#include "coretimer.h"
-#include "coreWork.h"
 #include "stdbool.h"
 
 volatile struct queue ilara;
@@ -27,9 +25,19 @@ void *generateProcess_f(){
     //Ilararen tamaina aldakora izango denez, ilara dinamiko bat sortu behar da.
     ilara.buff = malloc(MAX*sizeof(struct pcb));
 	
-    int i = 0;
-	int d, l, c, k;
+
+    int i = 1;
+	int d, l, c, k, j, m;
 	k=0;
+	j=0;
+
+	for (int k = 0; k < MAX; k++)
+	{
+		ilara.buff[k].aldatu = 1;
+		ilara.buff[k].erabilera = 1;
+		ilara.buff[k].pid = 0;
+	}
+
 	while(1){
 
 		d = rand() % (MAIZT%7);
@@ -50,24 +58,28 @@ void *generateProcess_f(){
 			prozesu.pasatakoD = 0;
 			prozesu.erabilera = 0;
 			prozesu.aldatu = 0;
-
+			printf("%d. prozesua sortu da.\n", i);
 			//pthread_mutex_lock(&mutex2); 
             //bufferrean sartu beharreko prozesua sortzeko deia egin
             while(k==0){
 				pthread_mutex_lock(&mutex2);
-            	if (ilara.buff[i/MAX].aldatu == 1){
-					if(ilara.buff[i%MAX].erabilera == 1){
-						ilara.buff[i%MAX] = prozesu;
-            			gorde(i%CORE, i);
+            	if (ilara.buff[j%MAX].aldatu == 1){
+					if(ilara.buff[j%MAX].erabilera == 1){
+						ilara.buff[j%MAX] = prozesu;
+            			gorde(i%CORE, j%MAX);
+						ilara.indizea++;
             			k=1;
+						//printf("Errore[1]\n");
 					}
             		if(ilara.indizea == MAX){
 						ilara.indizea = 0;
+						//printf("Errore[2]");
 					}else{
 						ilara.indizea++;
+						//printf("Errore[3]");
 					}
             	}else{
-            		i++;
+            		j++;
             	}
 				pthread_mutex_unlock(&mutex2);
             }
@@ -77,10 +89,9 @@ void *generateProcess_f(){
             //eguneratu indizea
 			
             //pthread_mutex_unlock(&mutex2);
-			printf("%d. prozesua sortu da.\n", i);
-			
-		}
-		
+			j++;
+			i++;
+		}	
 	}
 
 
@@ -92,10 +103,12 @@ void gorde(int core, int proz){
 		if (ilara.buff[proz].lehentasuna > prozesagailu.corekop[core].nun){
 			prozesagailu.corekop[core].wait1[ilara.buff[proz].lehentasuna].zerrenda[prozesagailu.corekop[core].wait1[ilara.buff[proz].lehentasuna].zenbat] = proz%MAX; //ilara.buff[proz].pid
 			prozesagailu.corekop[core].wait1[ilara.buff[proz].lehentasuna].zenbat++;
-			printf("PID %d prozesua %d corean sartu da. \n",ilara.buff[proz].pid, core);
+			ilara.buff[proz].aldatu = 0;
+			printf("PID %d. prozesua %d. corean sartu da. \n",ilara.buff[proz].pid, core);
 		}else{
 			prozesagailu.corekop[core].wait2[ilara.buff[proz].lehentasuna].zerrenda[prozesagailu.corekop[core].wait2[ilara.buff[proz].lehentasuna].zenbat] = proz%MAX;
 			prozesagailu.corekop[core].wait2[ilara.buff[proz].lehentasuna].zenbat++;
+			ilara.buff[proz].aldatu = 0;
 			printf("PID %d prozesua %d corean sartu da. \n",ilara.buff[proz].pid, core);
 		}
 
@@ -103,10 +116,12 @@ void gorde(int core, int proz){
 		if (ilara.buff[proz].lehentasuna > prozesagailu.corekop[core].nun){
 			prozesagailu.corekop[core].wait2[ilara.buff[proz].lehentasuna].zerrenda[prozesagailu.corekop[core].wait2[ilara.buff[proz].lehentasuna].zenbat] = proz%MAX;
 			prozesagailu.corekop[core].wait2[ilara.buff[proz].lehentasuna].zenbat++;
+			ilara.buff[proz].aldatu = 0;
 			printf("PID %d prozesua %d corean sartu da. \n",ilara.buff[proz].pid, core);
 		}else{
 			prozesagailu.corekop[core].wait1[ilara.buff[proz].lehentasuna].zerrenda[prozesagailu.corekop[core].wait1[ilara.buff[proz].lehentasuna].zenbat] = proz%MAX;
 			prozesagailu.corekop[core].wait1[ilara.buff[proz].lehentasuna].zenbat++;
+			ilara.buff[proz].aldatu = 0;
 			printf("PID %d prozesua %d corean sartu da. \n",ilara.buff[proz].pid, core);
 		}
 	}

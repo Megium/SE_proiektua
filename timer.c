@@ -16,7 +16,7 @@ void *timer_f(){
 		sem_wait(&sinc);
 		if(tack == MAIZT){
 			pthread_mutex_lock(&mutex);
-			//printf("Ziklo bat pasa da\n");
+			printf("Ziklo bat pasa da\n");
 			tack = 0;
 			pthread_mutex_unlock(&mutex);
 
