@@ -13,7 +13,7 @@
 #include "stdbool.h"
 
 
-void gorde(int core, int proz);
+void exek();
 
 void *scheduler_f(){
 	int desp;
@@ -26,12 +26,8 @@ void *scheduler_f(){
 		//Ilarako prozesuak prozesadoreetan banatu
 		pthread_mutex_lock(&mutex2);
 		//prozesuak exekuziora eraman, gordetzean identifikadoreak bakarrik gorde eta ilara nagusitik hartu.
-			if(ilara.buff[desp].erabilera == 0){
-				gorde(desp%CORE, desp);
-				ilara.buff[desp].erabilera = 1;
-			}
-			
-		}
+		
+
 		pthread_mutex_unlock(&mutex2);
 
 		exek();
@@ -43,5 +39,30 @@ void *scheduler_f(){
 
 
 void exek(){
+	int i, kont, j;
+	for ( i = 0; i < CORE; i++)
+	{
+		kont = 0;
+		j = 0;
+		while(j == 0){
+			if (prozesagailu.corekop[i].harikop[kont].erabilgarri == 0){
+				if(prozesagailu.corekop[i].zein == 1){
+					ilara.buff[prozesagailu.corekop[i].wait1[prozesagailu.corekop[i].nun].zerrenda[prozesagailu.corekop[i].wait1[prozesagailu.corekop[i].nun].une]].egoera = 2;
+					ilara.buff[prozesagailu.corekop[i].wait1[prozesagailu.corekop[i].nun].zerrenda[prozesagailu.corekop[i].wait1[prozesagailu.corekop[i].nun].une]].erabilera = 1;
+					prozesagailu.corekop[i].harikop[kont].prozesua = prozesagailu.corekop[i].wait1[prozesagailu.corekop[i].nun].zerrenda[prozesagailu.corekop[i].wait1[prozesagailu.corekop[i].nun].une]; 
+					j = 1;
+				}else
+				{
+					ilara.buff[prozesagailu.corekop[i].wait2[prozesagailu.corekop[i].nun].zerrenda[prozesagailu.corekop[i].wait1[prozesagailu.corekop[i].nun].une]].egoera = 2;
+					ilara.buff[prozesagailu.corekop[i].wait2[prozesagailu.corekop[i].nun].zerrenda[prozesagailu.corekop[i].wait1[prozesagailu.corekop[i].nun].une]].erabilera = 1;	
+					prozesagailu.corekop[i].harikop[kont].prozesua = prozesagailu.corekop[i].wait2[prozesagailu.corekop[i].nun].zerrenda[prozesagailu.corekop[i].wait1[prozesagailu.corekop[i].nun].une]; 
+					j = 1;
+				}
+			}else if (kont == HARI){
+				j = 1;
+			}
+			kont++;
+		}
+	}
 	
 }

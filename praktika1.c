@@ -25,6 +25,7 @@ int MAX;//kanpotik hasieratu behar da.
 int POSIZIO;
 int CORE;
 int HARI;
+int QUAN;
 
 struct cpu prozesagailu;
 
@@ -36,6 +37,7 @@ int main(int argc, char const *argv[]){
 	MAX = atoi(argv[2]);
 	CORE = atoi(argv[3]);
 	HARI = atoi(argv[4]);
+	QUAN = atoi(argv[5]);
 	POSIZIO = 10;
 
 	pthread_mutex_init(&mutex, 0);
@@ -56,6 +58,8 @@ int main(int argc, char const *argv[]){
 		for (int j = 0; j < HARI; ++j)
 		{
 			prozesagailu.corekop[i].harikop[j].hariID = j;
+			prozesagailu.corekop[i].harikop[j].erabilgarri = 0;
+			prozesagailu.corekop[i].harikop[j].quantum = QUAN;
 		}
 	}
 
