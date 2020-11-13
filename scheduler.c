@@ -8,8 +8,6 @@
 #include "timer.h"
 #include "global.h"
 #include "processG.h"
-#include "stdbool.h"
-
 
 void exek();
 void prozAld();
@@ -20,8 +18,8 @@ void *scheduler_f(){
 	while(1){
 
 		sem_wait(&sche);
-		printf("-----------------\n-   Scheduler   -\n-----------------\n");
-		
+		//printf("-----------------\n-   Scheduler   -\n-----------------\n");
+        printf(" ");
 		//Ilarako prozesuak prozesadoreetan banatu
 		pthread_mutex_lock(&mutex2);
 		//prozesuak exekuziora eraman, gordetzean identifikadoreak bakarrik gorde eta ilara nagusitik hartu.
@@ -61,10 +59,10 @@ void exek(){
 				}
 			}if (kont == HARI){
 				j = 1;
-				printf("%d hari guztiak beteta daude.\n", prozesagailu.corekop[i].coreID);
+				//printf("%d hari guztiak beteta daude.\n", prozesagailu.corekop[i].coreID);
 			}else
 			{
-				printf("Hasieratu gabe");
+				printf("Hasieratu gabe\n");
 				j=1;
 			}
 			

@@ -9,8 +9,8 @@ extern pthread_mutex_t mutex;
 extern pthread_mutex_t mutex2;
 extern sem_t sche;
 extern sem_t sinc;
-extern sem_t coreT;
-extern volatile struct queue ilara;
+extern sem_t sinc2;
+extern struct queue ilara;
 extern struct cpu prozesagailu;
 
 

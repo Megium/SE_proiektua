@@ -9,9 +9,8 @@
 #include "global.h"
 #include "processG.h"
 #include "scheduler.h"
-#include "stdbool.h"
 
-volatile struct queue ilara;
+struct queue ilara;
 void gorde(int core, int proz);
 
 void *generateProcess_f(){
@@ -45,7 +44,7 @@ void *generateProcess_f(){
 		c = rand() % 10000;
         //Sorturiko denbora 0 bada salto, erroreak ekiditeko
 		if(d!=0){
-			sleep(d);
+			sleep(d%2);
             //Prozesu berri bat sortu, pcb motakoa
 			struct pcb prozesu;
 
@@ -59,14 +58,14 @@ void *generateProcess_f(){
 			prozesu.erabilera = 0;
 			prozesu.aldatu = 0;
 			printf("%d. prozesua sortu da.\n", i);
-			//pthread_mutex_lock(&mutex2); 
+
             //bufferrean sartu beharreko prozesua sortzeko deia egin
             while(k==0){
 				pthread_mutex_lock(&mutex2);
             	if (ilara.buff[j%MAX].aldatu == 1){
 					if(ilara.buff[j%MAX].erabilera == 1){
 						ilara.buff[j%MAX] = prozesu;
-            			gorde(i%CORE, j%MAX);
+            			gorde(j%CORE, j%MAX);
 						ilara.indizea++;
             			k=1;
 						//printf("Errore[1]\n");
@@ -86,9 +85,6 @@ void *generateProcess_f(){
 			k=0;
 
 
-            //eguneratu indizea
-			
-            //pthread_mutex_unlock(&mutex2);
 			j++;
 			i++;
 		}	

@@ -23,7 +23,7 @@ void *clock_f(){
 		eguneratuD();
 		pthread_mutex_unlock(&mutex);
 
-		sem_wait(&sinc);
+		sem_wait(&sinc2);
 
 		
 	}

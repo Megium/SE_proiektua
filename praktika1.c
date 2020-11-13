@@ -9,11 +9,9 @@
 #include "global.h"
 #include "processG.h"
 #include "scheduler.h"
-#include "stdbool.h"
 
 sem_t sinc;
-sem_t coreT;
-
+sem_t sinc2;
 sem_t sche;
 
 pthread_mutex_t mutex;
@@ -42,8 +40,8 @@ int main(int argc, char const *argv[]){
 	pthread_mutex_init(&mutex, 0);
 	pthread_mutex_init(&mutex2, 0);
 	sem_init(&sche, 1, 1);
-	sem_init(&sinc, 1, 2);
-	sem_init(&coreT, 1, 1);
+	sem_init(&sinc, 1, 1);
+	sem_init(&sinc2, 1, 0);
 
 	prozesagailu.corekop = malloc(CORE*sizeof(struct core));
 
@@ -67,6 +65,8 @@ int main(int argc, char const *argv[]){
 	pthread_create(&timer_hari, NULL, timer_f,NULL);
 	pthread_create(&process_hari, NULL, generateProcess_f, NULL);
 	pthread_create(&scheduler_hari, NULL, scheduler_f, NULL);
+
+	
 	
 	pthread_join(clock_hari, NULL);
 	pthread_join(timer_hari, NULL);
@@ -77,5 +77,5 @@ int main(int argc, char const *argv[]){
 	pthread_mutex_destroy(&mutex2);
 	sem_destroy(&sche);
 	sem_destroy(&sinc);
-	sem_destroy(&coreT);
+	sem_destroy(&sinc2);
 }
