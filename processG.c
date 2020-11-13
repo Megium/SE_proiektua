@@ -39,12 +39,12 @@ void *generateProcess_f(){
 
 	while(1){
 
-		d = rand() % (MAIZT%7);
+		d = rand();
 		l = rand() % POSIZIO;
 		c = rand() % 10000;
         //Sorturiko denbora 0 bada salto, erroreak ekiditeko
 		if(d!=0){
-			sleep(d%2);
+			sleep(d%5);
             //Prozesu berri bat sortu, pcb motakoa
 			struct pcb prozesu;
 
@@ -57,6 +57,7 @@ void *generateProcess_f(){
 			prozesu.pasatakoD = 0;
 			prozesu.erabilera = 0;
 			prozesu.aldatu = 0;
+			prozesu.run = 0;
 			printf("%d. prozesua sortu da.\n", i);
 
             //bufferrean sartu beharreko prozesua sortzeko deia egin
@@ -64,8 +65,9 @@ void *generateProcess_f(){
 				pthread_mutex_lock(&mutex2);
             	if (ilara.buff[j%MAX].aldatu == 1){
 					if(ilara.buff[j%MAX].erabilera == 1){
+						printf("Sartu da\n");
 						ilara.buff[j%MAX] = prozesu;
-            			gorde(j%CORE, j%MAX);
+            			gorde(i%CORE, j%MAX);
 						ilara.indizea++;
             			k=1;
 						//printf("Errore[1]\n");

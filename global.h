@@ -1,4 +1,4 @@
-extern volatile int tack;
+extern int tack;
 extern int MAIZT;
 extern int MAX;
 extern int POSIZIO;
@@ -29,6 +29,8 @@ int erabilera;
 int aldatu;
 //Prozesuak exekuzioan daraman denbora
 int pasatakoD;
+//Exekutatzen ari den ala ez
+int run;
 //aurreago gauza gehio	
 };
 

@@ -10,7 +10,7 @@
 #include "processG.h"
 #include "scheduler.h"
 
-volatile int tack;
+int tack;
 void eguneratuD();
 
 void *clock_f(){
@@ -20,12 +20,12 @@ void *clock_f(){
 		pthread_mutex_lock(&mutex);
 		//printf("Tack %d\n", tack);
 		tack++;
-		eguneratuD();
+		//eguneratuD();
 		pthread_mutex_unlock(&mutex);
-
-		sem_wait(&sinc2);
-
 		
+		//sem_wait(&sinc2);
+
+		eguneratuD();
 	}
 }
 
