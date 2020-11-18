@@ -58,6 +58,13 @@ int main(int argc, char const *argv[]){
 			prozesagailu.corekop[i].harikop[j].erabilgarri = 0;
 			prozesagailu.corekop[i].harikop[j].quantum = QUAN;
 		}
+		for (int k = 0; k < 10; ++k)
+		{
+			prozesagailu.corekop[i].wait1[k].zenbat = 0;
+			prozesagailu.corekop[i].wait1[k].une = 0;
+			prozesagailu.corekop[i].wait2[k].zenbat = 0;
+			prozesagailu.corekop[i].wait2[k].une = 0;
+		}
 	}
 
 

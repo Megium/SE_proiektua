@@ -42,25 +42,33 @@ void exek(){
 		j = 0;
 		while(j == 0){
 			if (prozesagailu.corekop[i].harikop[kont].erabilgarri == 0){
+				
+				//zein azpizerrendetan dagoen ikusi.
 				if(prozesagailu.corekop[i].zein == 1){
-					prozesagailu.corekop[i].harikop[kont].prozesua
+					//lana errazteko aldagaiak eskuratu.
+					int uneko = prozesagailu.corekop[i].wait1[prozesagailu.corekop[i].nun].une;
+					int nunD = prozesagailu.corekop[i].nun;
 
-
-
-
-
-					ilara.buff[prozesagailu.corekop[i].wait1[prozesagailu.corekop[i].nun].zerrenda[prozesagailu.corekop[i].wait1[prozesagailu.corekop[i].nun].une]].egoera = 2;
-					ilara.buff[prozesagailu.corekop[i].wait1[prozesagailu.corekop[i].nun].zerrenda[prozesagailu.corekop[i].wait1[prozesagailu.corekop[i].nun].une]].erabilera = 1;
-					prozesagailu.corekop[i].harikop[kont].prozesua = prozesagailu.corekop[i].wait1[prozesagailu.corekop[i].nun].zerrenda[prozesagailu.corekop[i].wait1[prozesagailu.corekop[i].nun].une];
-					printf("%d prozesua exekutatzen.\n", ilara.buff[prozesagailu.corekop[i].wait1[prozesagailu.corekop[i].nun].zerrenda[prozesagailu.corekop[i].wait1[prozesagailu.corekop[i].nun].une]].pid);
+					//Core barrutik hurrengo prozesua hartu eta harira eraman.
+					prozesagailu.corekop[i].harikop[kont].prozesua = prozesagailu.corekop[i].wait1[nunD].zerrenda[uneko];
+					//Exekuzioan jarritako prozesuari egoera aldatu(2 == exekuzioan)
+					prozesagailu.corekop[i].harikop[kont].prozesua.egoera = 2;
+					//Coreko azpi lista eguneratu.
+					prozesagailu.corekop[i].wait1[nunD].une++;
+					//konprobatu ea lehentasun hau bukatu den.
+					if(prozesagailu.corekop[i].wait1[nunD].une == prozesagailu.corekop[i].wait1[nunD].zenbat){
+						prozesagailu.corekop[i].nun++;
+						//Konprobatu ea lehentasun guztiak pasa diren.
+						if(prozesagailu.corekop[i].nun == 10){
+							prozesagailu.corekop[i].zein =2;
+						}
+					}
+					
+					printf("%d prozesua exekuziora, %d coreko %d harian\n", prozesagailu.corekop[i].wait1[nunD].zerrenda[uneko].pid, i, kont);
 					j = 1;
-				}else
-				{
-					ilara.buff[prozesagailu.corekop[i].wait2[prozesagailu.corekop[i].nun].zerrenda[prozesagailu.corekop[i].wait1[prozesagailu.corekop[i].nun].une]].egoera = 2;
-					ilara.buff[prozesagailu.corekop[i].wait2[prozesagailu.corekop[i].nun].zerrenda[prozesagailu.corekop[i].wait1[prozesagailu.corekop[i].nun].une]].erabilera = 1;	
-					prozesagailu.corekop[i].harikop[kont].prozesua = prozesagailu.corekop[i].wait2[prozesagailu.corekop[i].nun].zerrenda[prozesagailu.corekop[i].wait1[prozesagailu.corekop[i].nun].une]; 
-					j = 1;
-					printf("%d prozesua exekutatzen.\n", ilara.buff[prozesagailu.corekop[i].wait1[prozesagailu.corekop[i].nun].zerrenda[prozesagailu.corekop[i].wait1[prozesagailu.corekop[i].nun].une]].pid);
+					kont++;
+				}else{
+					//goiko berdina kopiatu wait2 aldatuta.
 				}
 			}if (kont == HARI){
 				j = 1;
