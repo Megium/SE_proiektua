@@ -32,7 +32,7 @@ void *generateProcess_f(){
 
 	for (int k = 0; k < MAX; k++)
 	{
-		ilara.buff[k].egoera = 1;
+		ilara.buff[k].erabilera = 1;
 		ilara.buff[k].pid = 0;
 	}
 
@@ -61,7 +61,7 @@ void *generateProcess_f(){
             //bufferrean sartu beharreko prozesua sortzeko deia egin
             while(k==0){
 				pthread_mutex_lock(&mutex2);
-            	if (ilara.buff[j%MAX].egoera == 1){
+            	if (ilara.buff[j%MAX].erabilera == 1){
 					ilara.buff[j%MAX] = prozesu;
             		gorde(j%CORE, prozesu);
 					ilara.indizea++;
@@ -89,7 +89,7 @@ void *generateProcess_f(){
 	}
 }
 
-void gorde(int core, struct pcb proz){
+void *gorde(int core, struct pcb proz){
 
 	if (prozesagailu.corekop[core].zein == 1){
 		if (proz.lehentasuna > prozesagailu.corekop[core].nun){

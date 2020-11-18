@@ -107,65 +107,23 @@ void prozAld(){
 	for (i = 0; i < CORE; i++)
 	{
 		for ( j = 0; j < HARI; j++){
-			if (ilara.buff[prozesagailu.corekop[i].harikop[j].prozesua].pasatakoD == ilara.buff[prozesagailu.corekop[i].harikop[j].prozesua].iraupena){
+			//Lehendabizi begiratu ea haria exekuzioan dagoen ala ez
+			if (prozesagailu.corekop[i].harikop[j].erabilgarri == 1){
 				//Prozesuak exekutatzen bukatzean
-				ilara.buff[prozesagailu.corekop[i].harikop[j].prozesua].aldatu = 1;
-				ilara.buff[prozesagailu.corekop[i].harikop[j].prozesua].egoera = 4;
-				prozesagailu.corekop[i].harikop[j].erabilgarri = 0;
-				if (prozesagailu.corekop[i].zein == 1){
-					if(prozesagailu.corekop[i].wait1[prozesagailu.corekop[i].nun].une < prozesagailu.corekop[i].wait1[prozesagailu.corekop[i].nun].zenbat){
-						prozesagailu.corekop[i].wait1[prozesagailu.corekop[i].nun].une++;
-					}else{
-						prozesagailu.corekop[i].wait1[prozesagailu.corekop[i].nun].une = 0;
-						if(prozesagailu.corekop[i].nun < 10){
-							prozesagailu.corekop[i].nun++;
-						}else{
-							prozesagailu.corekop[i].zein = 2;
-						}
-					}	
-				}else{
-					if(prozesagailu.corekop[i].wait2[prozesagailu.corekop[i].nun].une < prozesagailu.corekop[i].wait2[prozesagailu.corekop[i].nun].zenbat){
-						prozesagailu.corekop[i].wait2[prozesagailu.corekop[i].nun].une++;
-					}else{
-						prozesagailu.corekop[i].wait2[prozesagailu.corekop[i].nun].une = 0;
-						if(prozesagailu.corekop[i].nun < 10){
-							prozesagailu.corekop[i].nun++;
-						}else{
-							prozesagailu.corekop[i].zein = 2;		
-						}
-					}
-				}		
-								
-
-			}else if (prozesagailu.corekop[i].harikop[j].quantum == ilara.buff[prozesagailu.corekop[i].harikop[j].prozesua].pasatakoD){
-				//Prozesuak quantuma gainditu ezkero
-				ilara.buff[prozesagailu.corekop[i].harikop[j].prozesua].egoera = 3;
-				ilara.buff[prozesagailu.corekop[i].harikop[j].prozesua].erabilera = 0;
-				ilara.buff[prozesagailu.corekop[i].harikop[j].prozesua].aldatu = 0;
-				prozesagailu.corekop[i].harikop[j].erabilgarri = 0;
-				if (prozesagailu.corekop[i].zein == 1){
-					if(prozesagailu.corekop[i].wait1[prozesagailu.corekop[i].nun].une < prozesagailu.corekop[i].wait1[prozesagailu.corekop[i].nun].zenbat){
-						prozesagailu.corekop[i].wait1[prozesagailu.corekop[i].nun].une++;
-					}else{
-						prozesagailu.corekop[i].wait1[prozesagailu.corekop[i].nun].une = 0;
-						if(prozesagailu.corekop[i].nun < 10){
-							prozesagailu.corekop[i].nun++;
-						}else{
-							prozesagailu.corekop[i].zein = 2;
-						}
-					}	
-				}else{
-					if(prozesagailu.corekop[i].wait2[prozesagailu.corekop[i].nun].une < prozesagailu.corekop[i].wait2[prozesagailu.corekop[i].nun].zenbat){
-						prozesagailu.corekop[i].wait2[prozesagailu.corekop[i].nun].une++;
-					}else{
-						prozesagailu.corekop[i].wait2[prozesagailu.corekop[i].nun].une = 0;
-						if(prozesagailu.corekop[i].nun < 10){
-							prozesagailu.corekop[i].nun++;
-						}else{
-							prozesagailu.corekop[i].zein = 2;
-						}
-					}
-				}			
+				if(prozesagailu.corekop[i].harikop[j].prozesua.pasatakoD == prozesagailu.corekop[i].harikop[j].prozesua.iraupena){
+					//Egoera exekutatura aldatu
+					prozesagailu.corekop[i].harikop[j].prozesua.egoera = 4;
+					//Haria erabilgarri jarri
+					prozesagailu.corekop[i].harikop[j].erabilgarri = 0;
+				//Exekuzioak quantum-a pasaz gero
+				}else if(prozesagailu.corekop[i].harikop[j].prozesua.pasatakoD == prozesagailu.corekop[i].harikop[j].quantum){
+					//Egoera blokeatura pasa.
+					prozesagailu.corekop[i].harikop[j].prozesua.egoera = 3;
+					//Haria erabilgarri jarri.
+					prozesagailu.corekop[i].harikop[j].erabilgarri = 0;
+					//Prozesua berriro coreko ilarara itzuli.
+					gorde(i, prozesagailu.corekop[i].harikop[j].prozesua);
+				}
 			}			
 		}
 	}
