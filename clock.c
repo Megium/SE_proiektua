@@ -10,7 +10,7 @@
 #include "processG.h"
 #include "scheduler.h"
 
-int tack;
+volatile int tack;
 void eguneratuD();
 
 void *clock_f(){
@@ -20,12 +20,12 @@ void *clock_f(){
 		pthread_mutex_lock(&mutex);
 		//printf("Tack %d\n", tack);
 		tack++;
-		//eguneratuD();
-		pthread_mutex_unlock(&mutex);
-		
-		//sem_wait(&sinc2);
-
 		eguneratuD();
+		pthread_mutex_unlock(&mutex);
+
+		sem_wait(&sinc2);
+
+		
 	}
 }
 
@@ -37,11 +37,11 @@ void eguneratuD(){
 		for ( j = 0; j < HARI; j++)
 		{
 			if(prozesagailu.corekop[i].harikop[j].erabilgarri == 1){
-				pthread_mutex_lock(&mutex2);
 				//Exekutzatzen jarraitu
-				ilara.buff[prozesagailu.corekop[i].harikop[j].prozesua].pasatakoD++;
-				printf("Denbora eguneratu da");
-				pthread_mutex_unlock(&mutex2);
+				//ilara.buff[prozesagailu.corekop[i].harikop[j].prozesua].pasatakoD++;
+
+				prozesagailu.corekop[i].harikop[j].prozesua.pasatakoD++;
+				//printf("Denbora eguneratu da");
 			}			
 		}
 	}

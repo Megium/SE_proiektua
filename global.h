@@ -1,4 +1,4 @@
-extern int tack;
+extern volatile int tack;
 extern int MAIZT;
 extern int MAX;
 extern int POSIZIO;
@@ -25,12 +25,8 @@ int iraupena;
 int egoera;
 //Prozesua core-ren batean dagoen ala ez. 0 = erabili gabe; 1 = core baten barruan
 int erabilera;
-//Prozesua ilaratik atera daiteken ala ez
-int aldatu;
 //Prozesuak exekuzioan daraman denbora
 int pasatakoD;
-//Exekutatzen ari den ala ez
-int run;
 //aurreago gauza gehio	
 };
 
@@ -48,7 +44,7 @@ struct priority
 	//Une honetan uneko lehentasunean zenbatgarren prozesuan doan
 	int une;
 	//Lehentasun bakoitzeko prozesu zerrenda, prozesuen id-ak gordeko ditu
-	int zerrenda[20];
+	struct pcb zerrenda[20];
 };
 
 
@@ -58,7 +54,7 @@ struct haria
 	int hariID;
 	int erabilgarri;
 	int quantum;
-	int prozesua;
+	struct pcb prozesua;
 };
 struct core
 {
