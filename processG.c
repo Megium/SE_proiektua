@@ -59,7 +59,7 @@ void *generateProcess_f(){
 
             //bufferrean sartu beharreko prozesua sortzeko deia egin
             while(k==0){
-				pthread_mutex_lock(&mutex2);
+				//pthread_mutex_lock(&mutex2);
             	if (ilara.buff[j%MAX].erabilera == 1){
 					ilara.buff[j%MAX] = prozesu;
             		gorde(j%CORE, prozesu);
@@ -75,7 +75,7 @@ void *generateProcess_f(){
 					ilara.indizea++;
 					//printf("Errore[3]");
 				}
-				pthread_mutex_unlock(&mutex2);
+				//pthread_mutex_unlock(&mutex2);
             }
 			k=0;
 
@@ -88,32 +88,39 @@ void *generateProcess_f(){
 
 void *gorde(int core, struct pcb proz){
 
-	if (prozesagailu.corekop[core].zein == 1){
-		if (proz.lehentasuna > prozesagailu.corekop[core].nun){
-			prozesagailu.corekop[core].wait1[proz.lehentasuna].zerrenda[prozesagailu.corekop[core].wait1[proz.lehentasuna].zenbat+1] = proz;
-			prozesagailu.corekop[core].wait1[proz.lehentasuna].zenbat++;
-			proz.erabilera = 1;
-			printf("PID %d. prozesua %d. corean sartu da. \n", proz.pid, core);
-		}else{
-			prozesagailu.corekop[core].wait2[proz.lehentasuna].zerrenda[prozesagailu.corekop[core].wait2[proz.lehentasuna].zenbat+1] = proz;
-			prozesagailu.corekop[core].wait2[proz.lehentasuna].zenbat++;
-			proz.erabilera = 1;
-			printf("PID %d prozesua %d corean sartu da. \n",proz.pid, core);
-		}
+	if(proz.pid != 0){
+		if (prozesagailu.corekop[core].zein == 1){
+			if (proz.lehentasuna > prozesagailu.corekop[core].nun){
+				proz.erabilera = 1;
+				prozesagailu.corekop[core].wait1[proz.lehentasuna].zerrenda[prozesagailu.corekop[core].wait1[proz.lehentasuna].zenbat+1] = proz;
+				prozesagailu.corekop[core].wait1[proz.lehentasuna].zenbat++;
+				proz.erabilera = 1;
+				printf("PID %d. prozesua %d. corean sartu da. \n", proz.pid, core);
+			}else{
+				proz.erabilera = 1;
+				prozesagailu.corekop[core].wait2[proz.lehentasuna].zerrenda[prozesagailu.corekop[core].wait2[proz.lehentasuna].zenbat+1] = proz;
+				prozesagailu.corekop[core].wait2[proz.lehentasuna].zenbat++;
+				proz.erabilera = 1;
+				printf("PID %d prozesua %d corean sartu da. \n",proz.pid, core);
+			}
 
-	}else{
-		if (proz.lehentasuna > prozesagailu.corekop[core].nun){
-			prozesagailu.corekop[core].wait2[proz.lehentasuna].zerrenda[prozesagailu.corekop[core].wait2[proz.lehentasuna].zenbat+1] = proz;
-			prozesagailu.corekop[core].wait2[proz.lehentasuna].zenbat++;
-			proz.erabilera = 1;
-			printf("PID %d prozesua %d corean sartu da. \n",proz.pid, core);
 		}else{
-			prozesagailu.corekop[core].wait1[proz.lehentasuna].zerrenda[prozesagailu.corekop[core].wait1[proz.lehentasuna].zenbat+1] = proz;
-			prozesagailu.corekop[core].wait1[proz.lehentasuna].zenbat++;
-			proz.erabilera = 1;
-			printf("PID %d. prozesua %d. corean sartu da. \n",proz.pid, core);
+			if (proz.lehentasuna > prozesagailu.corekop[core].nun){
+				proz.erabilera = 1;
+				prozesagailu.corekop[core].wait2[proz.lehentasuna].zerrenda[prozesagailu.corekop[core].wait2[proz.lehentasuna].zenbat+1] = proz;
+				prozesagailu.corekop[core].wait2[proz.lehentasuna].zenbat++;
+				proz.erabilera = 1;
+				printf("PID %d prozesua %d corean sartu da. \n",proz.pid, core);
+			}else{
+				proz.erabilera = 1;
+				prozesagailu.corekop[core].wait1[proz.lehentasuna].zerrenda[prozesagailu.corekop[core].wait1[proz.lehentasuna].zenbat+1] = proz;
+				prozesagailu.corekop[core].wait1[proz.lehentasuna].zenbat++;
+				proz.erabilera = 1;
+				printf("PID %d. prozesua %d. corean sartu da. \n",proz.pid, core);
+			}
 		}
 	}
+	
 }
 
 

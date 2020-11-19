@@ -16,14 +16,14 @@ void eguneratuD();
 void *clock_f(){
 	
 	while(1){
-		sem_post(&sinc);
+		//sem_post(&sinc);
 		pthread_mutex_lock(&mutex);
 		//printf("Tack %d\n", tack);
 		tack++;
 		eguneratuD();
 		pthread_mutex_unlock(&mutex);
 
-		sem_wait(&sinc2);
+		//sem_wait(&sinc2);
 
 		
 	}
