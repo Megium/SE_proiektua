@@ -37,8 +37,8 @@ void *generateProcess_f(){
 	}
 
 	while(1){
-
-		d = rand() % (MAIZT%7);
+		d = rand();
+		//d = rand() % (MAIZT%7);
 		l = rand() % POSIZIO;
 		c = rand() % 10000;
         //Sorturiko denbora 0 bada salto, erroreak ekiditeko
@@ -59,7 +59,7 @@ void *generateProcess_f(){
 
             //bufferrean sartu beharreko prozesua sortzeko deia egin
             while(k==0){
-				//pthread_mutex_lock(&mutex2);
+				pthread_mutex_lock(&mutex2);
             	if (ilara.buff[j%MAX].erabilera == 1){
 					ilara.buff[j%MAX] = prozesu;
             		gorde(j%CORE, prozesu);
@@ -75,7 +75,7 @@ void *generateProcess_f(){
 					ilara.indizea++;
 					//printf("Errore[3]");
 				}
-				//pthread_mutex_unlock(&mutex2);
+				pthread_mutex_unlock(&mutex2);
             }
 			k=0;
 

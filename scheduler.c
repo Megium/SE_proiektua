@@ -20,11 +20,11 @@ void *scheduler_f(){
 		sem_wait(&sche);
 		printf("-----------------\n-   Scheduler   -\n-----------------\n");
 		//Ilarako prozesuak prozesadoreetan banatu
-		//pthread_mutex_lock(&mutex2);
-		//prozesuak exekuziora eraman, gordetzean identifikadoreak bakarrik gorde eta ilara nagusitik hartu.
+		pthread_mutex_lock(&mutex2);
+		
 		prozAld();
 
-		//pthread_mutex_unlock(&mutex2);
+		pthread_mutex_unlock(&mutex2);
 
 		exek();
 	}
@@ -35,13 +35,14 @@ void *scheduler_f(){
 
 //prozesuak exekuzioan jarri.
 void exek(){
-	int i, kont, j;
+	int i, kont, j, k;
 	for ( i = 0; i < CORE; i++)
 	{
+		
 		kont = 0;
 		j = 0;
-		while(j == 0){
-			if (prozesagailu.corekop[i].harikop[kont].erabilgarri == 0){
+		for (k = 0; k < HARI; k++){
+			if (prozesagailu.corekop[i].harikop[k].erabilgarri == 0){
 				
 				//zein azpizerrendetan dagoen ikusi.
 				if(prozesagailu.corekop[i].zein == 1){
@@ -55,24 +56,23 @@ void exek(){
 							prozesagailu.corekop[i].nun++;
 							//Konprobatu ea lehentasun guztiak pasa diren.
 							if(prozesagailu.corekop[i].nun == 10){
-								prozesagailu.corekop[i].zein =2;
+								prozesagailu.corekop[i].zein = 2;
 							}
 						}else{
 							//Core barrutik hurrengo prozesua hartu eta harira eraman.
-							prozesagailu.corekop[i].harikop[kont].prozesua = prozesagailu.corekop[i].wait1[nunD].zerrenda[uneko];
+							prozesagailu.corekop[i].harikop[k].prozesua = prozesagailu.corekop[i].wait1[nunD].zerrenda[uneko];
 							//Exekuzioan jarritako prozesuari egoera aldatu(2 == exekuzioan)
-							prozesagailu.corekop[i].harikop[kont].prozesua.egoera = 2;
+							prozesagailu.corekop[i].harikop[k].prozesua.egoera = 2;
 							//Coreko azpi lista eguneratu.
 							prozesagailu.corekop[i].wait1[nunD].une++;
 							//konprobatu ea lehentasun hau bukatu den.
 						}
-						
-						
 						printf("%d prozesua exekuziora, %d coreko %d harian\n", prozesagailu.corekop[i].wait1[nunD].zerrenda[uneko].pid, i, kont);
-						j = 1;
-						kont++;
 					}else{
-						kont++;
+						prozesagailu.corekop[i].nun++;
+						if(prozesagailu.corekop[i].nun == 10){
+								prozesagailu.corekop[i].zein = 2;
+							}
 					}	
 				}else{
 					//lana errazteko aldagaiak eskuratu.
@@ -81,9 +81,9 @@ void exek(){
 
 					if(prozesagailu.corekop[i].wait2[nunD].zenbat != 0){
 						//Core barrutik hurrengo prozesua hartu eta harira eraman.
-						prozesagailu.corekop[i].harikop[kont].prozesua = prozesagailu.corekop[i].wait2[nunD].zerrenda[uneko];
+						prozesagailu.corekop[i].harikop[k].prozesua = prozesagailu.corekop[i].wait2[nunD].zerrenda[uneko];
 						//Exekuzioan jarritako prozesuari egoera aldatu(2 == exekuzioan)
-						prozesagailu.corekop[i].harikop[kont].prozesua.egoera = 2;
+						prozesagailu.corekop[i].harikop[k].prozesua.egoera = 2;
 						//Coreko azpi lista eguneratu.
 						prozesagailu.corekop[i].wait2[nunD].une++;
 						//konprobatu ea lehentasun hau bukatu den.
@@ -94,20 +94,15 @@ void exek(){
 								prozesagailu.corekop[i].zein = 1;
 							}
 						}
-					
-						printf("%d prozesua exekuziora, %d coreko %d harian\n", prozesagailu.corekop[i].wait2[nunD].zerrenda[uneko].pid, i, kont);
-						j = 1;
-						kont++;
+						printf("%d prozesua exekuziora, %d coreko %d harian\n", prozesagailu.corekop[i].wait2[nunD].zerrenda[uneko].pid, i, k);
 					}else{
-						kont++;
+						prozesagailu.corekop[i].nun++;
+						if(prozesagailu.corekop[i].nun == 10){
+								prozesagailu.corekop[i].zein = 1;
+							}
 					}
 				}	
 			}				
-			if (kont == HARI){
-				//Hari guztiak okupatuta badaude hurrengo corera salto.
-				j = 1;
-				printf("%d hari guztiak beteta daude.\n", prozesagailu.corekop[i].coreID);
-			}
 		}
 	}	
 }
