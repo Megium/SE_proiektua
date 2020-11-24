@@ -45,26 +45,26 @@ int main(int argc, char const *argv[]){
 
 	prozesagailu.corekop = malloc(CORE*sizeof(struct core));
 
-	for (int i = 0; i < CORE; ++i)
+	for (int i = 0; i < CORE; i++)
 	{
 		prozesagailu.corekop[i].coreID = i;
 		prozesagailu.corekop[i].zein = 1;
 		prozesagailu.corekop[i].nun = 0;
 		prozesagailu.corekop[i].harikop = malloc(HARI*sizeof(struct haria));
 
-		for (int j = 0; j < HARI; ++j)
+		for (int j = 0; j < HARI; j++)
 		{
 			prozesagailu.corekop[i].harikop[j].hariID = j;
 			prozesagailu.corekop[i].harikop[j].erabilgarri = 0;
 			prozesagailu.corekop[i].harikop[j].quantum = QUAN;
 		}
-		for (int k = 0; k < 10; ++k)
+		for (int k = 0; k < 10; k++)
 		{
 			prozesagailu.corekop[i].wait1[k].zenbat = 0;
 			prozesagailu.corekop[i].wait1[k].une = 0;
 			prozesagailu.corekop[i].wait2[k].zenbat = 0;
 			prozesagailu.corekop[i].wait2[k].une = 0;
-			for (int m = 0; m < 20; ++m)
+			for (int m = 0; m < 20; m++)
 			{
 				prozesagailu.corekop[i].wait1[k].zerrenda[m].pid = 0;
 				prozesagailu.corekop[i].wait1[k].zerrenda[m].egoera = 4;
