@@ -94,13 +94,11 @@ void *gorde(int core, struct pcb proz){
 				proz.erabilera = 1;
 				prozesagailu.corekop[core].wait1[proz.lehentasuna].zerrenda[prozesagailu.corekop[core].wait1[proz.lehentasuna].zenbat+1] = proz;
 				prozesagailu.corekop[core].wait1[proz.lehentasuna].zenbat++;
-				proz.erabilera = 1;
 				printf("PID %d. prozesua %d. corean sartu da. \n", proz.pid, core);
 			}else{
 				proz.erabilera = 1;
 				prozesagailu.corekop[core].wait2[proz.lehentasuna].zerrenda[prozesagailu.corekop[core].wait2[proz.lehentasuna].zenbat+1] = proz;
 				prozesagailu.corekop[core].wait2[proz.lehentasuna].zenbat++;
-				proz.erabilera = 1;
 				printf("PID %d prozesua %d corean sartu da. \n",proz.pid, core);
 			}
 
@@ -109,13 +107,11 @@ void *gorde(int core, struct pcb proz){
 				proz.erabilera = 1;
 				prozesagailu.corekop[core].wait2[proz.lehentasuna].zerrenda[prozesagailu.corekop[core].wait2[proz.lehentasuna].zenbat+1] = proz;
 				prozesagailu.corekop[core].wait2[proz.lehentasuna].zenbat++;
-				proz.erabilera = 1;
 				printf("PID %d prozesua %d corean sartu da. \n",proz.pid, core);
 			}else{
 				proz.erabilera = 1;
 				prozesagailu.corekop[core].wait1[proz.lehentasuna].zerrenda[prozesagailu.corekop[core].wait1[proz.lehentasuna].zenbat+1] = proz;
 				prozesagailu.corekop[core].wait1[proz.lehentasuna].zenbat++;
-				proz.erabilera = 1;
 				printf("PID %d. prozesua %d. corean sartu da. \n",proz.pid, core);
 			}
 		}

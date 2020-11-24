@@ -67,6 +67,7 @@ int main(int argc, char const *argv[]){
 			for (int m = 0; m < 20; ++m)
 			{
 				prozesagailu.corekop[i].wait1[k].zerrenda[m].pid = 0;
+				prozesagailu.corekop[i].wait1[k].zerrenda[m].egoera = 4;
 			}
 		}
 	}
