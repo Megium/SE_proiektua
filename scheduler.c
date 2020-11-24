@@ -10,7 +10,6 @@
 #include "processG.h"
 
 void exek();
-void prozAld();
 
 void *scheduler_f(){
 	int desp;
@@ -22,7 +21,6 @@ void *scheduler_f(){
 		//Ilarako prozesuak prozesadoreetan banatu
 		pthread_mutex_lock(&mutex2);
 		exek();
-		prozAld();
 
 		pthread_mutex_unlock(&mutex2);
 
@@ -47,7 +45,7 @@ void exek(){
 			//printf("Haria: %d\n", j);
 			if(prozesagailu.corekop[i].harikop[j].erabilgarri == 1){
 				//haria ez badago erabilgarri hurrengo harira pasa.
-				printf("Haria ez dago erabilgarri\n");
+				//printf("Haria ez dago erabilgarri\n");
 				break;
 			}else{
 				if(prozesagailu.corekop[i].zein == 1){
@@ -71,6 +69,7 @@ void exek(){
 									prozesagailu.corekop[i].wait1[prozesagailu.corekop[i].nun].une = l;
 									prozesagailu.corekop[i].nun = k;
 									prozesagailu.corekop[i].harikop[j].erabilgarri = 1;
+									prozesagailu.corekop[i].harikop[j].prozesua = prozesagailu.corekop[i].wait1[k].zerrenda[l];
 									buk = 1;
 									printf("%d prozesua exekuziora, %d coreko %d harian\n", prozesagailu.corekop[i].wait1[k].zerrenda[l].pid, i, j);
 									break;
@@ -108,6 +107,7 @@ void exek(){
 									prozesagailu.corekop[i].wait2[prozesagailu.corekop[i].nun].une = l;
 									prozesagailu.corekop[i].nun = k;
 									prozesagailu.corekop[i].harikop[j].erabilgarri = 1;
+									prozesagailu.corekop[i].harikop[j].prozesua = prozesagailu.corekop[i].wait2[k].zerrenda[l];
 									buk = 1;
 									printf("%d prozesua exekuziora, %d coreko %d harian\n", prozesagailu.corekop[i].wait2[k].zerrenda[l].pid, i, j);
 									break;
@@ -132,33 +132,3 @@ void exek(){
 	}
 }
 
-
-void prozAld(){
-	int i, j;
-	for (i = 0; i < CORE; i++)
-	{
-		for ( j = 0; j < HARI; j++){
-			//Lehendabizi begiratu ea haria exekuzioan dagoen ala ez
-			if (prozesagailu.corekop[i].harikop[j].erabilgarri == 1){
-				//Prozesuak exekutatzen bukatzean
-				if(prozesagailu.corekop[i].harikop[j].prozesua.pasatakoD == prozesagailu.corekop[i].harikop[j].prozesua.iraupena){
-					//Egoera exekutatura aldatu
-					prozesagailu.corekop[i].harikop[j].prozesua.egoera = 4;
-					//Haria erabilgarri jarri
-					prozesagailu.corekop[i].harikop[j].erabilgarri = 0;
-				//Exekuzioak quantum-a pasaz gero
-				}else if(prozesagailu.corekop[i].harikop[j].prozesua.pasatakoD == prozesagailu.corekop[i].harikop[j].quantum){
-					//Egoera blokeatura pasa.
-					prozesagailu.corekop[i].harikop[j].prozesua.egoera = 3;
-					//Haria erabilgarri jarri.
-					prozesagailu.corekop[i].harikop[j].erabilgarri = 0;
-					//Prozesua berriro coreko ilarara itzuli.
-					//gorde(i, prozesagailu.corekop[i].harikop[j].prozesua);
-				}
-			}else{
-				//gorde(i, prozesagailu.corekop[i].harikop[j].prozesua);
-			}			
-		}
-	}
-	
-}
