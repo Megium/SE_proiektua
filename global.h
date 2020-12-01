@@ -27,7 +27,8 @@ int egoera;
 int erabilera;
 //Prozesuak exekuzioan daraman denbora
 int pasatakoD;
-//aurreago gauza gehio	
+//Memory managenment	
+struct memM mm;
 };
 
 //Prozesuak sartzeko ilara, bertan buffer bat prozesuen informazioekin eta sorturiko prozesu kopuruarekin.
@@ -70,4 +71,14 @@ struct core
 struct cpu
 {
 	struct core *corekop;
+};
+
+struct memM
+{
+	//datuen segmentuaren helbide birtula
+	char[] data;
+	//kodearen segmentuaren helbide birtuala
+	char[] code;
+	//orri-taularen helbide fisikoa
+	char[] pgb;
 };
