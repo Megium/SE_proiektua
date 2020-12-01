@@ -56,6 +56,11 @@ struct haria
 	int erabilgarri;
 	int quantum;
 	struct pcb prozesua;
+	//Memoria kudeatzeko hardwarea:
+	struct mmuStr mmu;
+	char[] pc;
+	char[] ir;
+	char[] ptbr;
 };
 struct core
 {
@@ -81,4 +86,21 @@ struct memM
 	char[] code;
 	//orri-taularen helbide fisikoa
 	char[] pgb;
+};
+
+struct mmuSrt
+{
+	struct tlbBuffer tlb[];
+};
+
+struct tlbBuffer
+{
+	//TLB barruko taulak 2 parametro ditu, beraz taulako aldagai bakoitzean orri-zenbaki bakoitzari dagokion marko-zenbakia.
+	struct barneTlb taula[];
+};
+
+struct barneTlb
+{
+	char[] orriZ;
+	char[] markoZ;
 };
