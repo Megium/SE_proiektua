@@ -5,6 +5,7 @@ extern int POSIZIO;
 extern int CORE;
 extern int HARI;
 extern int QUAN;
+extern int KERNEL;
 extern pthread_mutex_t mutex;
 extern pthread_mutex_t mutex2;
 extern sem_t sche;
@@ -12,6 +13,7 @@ extern sem_t sinc;
 extern sem_t sinc2;
 extern struct queue ilara;
 extern struct cpu prozesagailu;
+extern memNag nagusi[10000];
 
 
 //Prozesuaren informazioa gordetzeko
@@ -57,10 +59,10 @@ struct haria
 	int quantum;
 	struct pcb prozesua;
 	//Memoria kudeatzeko hardwarea:
+	int pc; 	//program counter
+	int ir; 	//intsruction register
+	int ptbr;   //page table base register
 	struct mmuStr mmu;
-	char[] pc;
-	char[] ir;
-	char[] ptbr;
 };
 struct core
 {
@@ -81,11 +83,11 @@ struct cpu
 struct memM
 {
 	//datuen segmentuaren helbide birtula
-	char[] data;
+	char data[];
 	//kodearen segmentuaren helbide birtuala
-	char[] code;
+	char code[];
 	//orri-taularen helbide fisikoa
-	char[] pgb;
+	int pgb;
 };
 
 struct mmuSrt
@@ -101,6 +103,10 @@ struct tlbBuffer
 
 struct barneTlb
 {
-	char[] orriZ;
-	char[] markoZ;
+	int orriZ;
+	int markoText;
+	int markoData;
 };
+
+//Memoria nagusia simulatzen duen zerrenda. Bertan kode eta datuak gordetzen dira eta zati espezifiko bat gorde behar da kernel eta orri taularentzako.
+char memNag[];

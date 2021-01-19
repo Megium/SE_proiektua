@@ -7,7 +7,7 @@
 #include "clock.h"
 #include "timer.h"
 #include "global.h"
-#include "processG.h"
+#include "loader.h"
 
 void exek();
 
@@ -70,6 +70,13 @@ void exek(){
 									prozesagailu.corekop[i].nun = k;
 									prozesagailu.corekop[i].harikop[j].erabilgarri = 1;
 									prozesagailu.corekop[i].harikop[j].prozesua = prozesagailu.corekop[i].wait1[k].zerrenda[l];
+								// 3.zatiko aldaketak
+									prozesagailu.corekop[i].harikop[j].pc = prozesagailu.corekop[i].harikop[j].prozesua.pid;
+									prozesagailu.corekop[i].harikop[j].ptbr = prozesagailu.corekop[i].harikop[j].prozesua.mm.pgb;
+									prozesagailu.corekop[i].harikop[j].prozesua.iraupena = exek_denbora(prozesagailu.corekop[i].harikop[j].ptbr, prozesagailu.corekop[i].harikop[j].prozesua);
+
+
+
 									buk = 1;
 									printf("%d prozesua exekuziora, %d coreko %d harian\n", prozesagailu.corekop[i].wait1[k].zerrenda[l].pid, i, j);
 									break;
@@ -132,3 +139,39 @@ void exek(){
 	}
 }
 
+/*
+Denborak:
+	ld = 2 ziklo
+	st = 2 ziklo
+	add = 4 ziklo
+	exit = ziklo 1
+*/
+
+//Programaren kodea hartuta honen exekuzio denbora itzultzen du.
+int exek_denbora(int orriZb, struct pcb proz){
+
+	int denb, i, has;
+	char helb[] = proz.mm.data;
+	int desp = hamaseitarHamartar(helb, sizeof(helb));
+	has = nagusi[orriZb];
+
+	for (i = 0; i < desp; i++)
+	{
+		switch(nagusi[has].memNa[0]){
+			case '0':
+				denb = denb + 2;
+				break;
+			case '1':
+				denb = denb + 2;
+				break;
+			case '2':
+				denb = denb + 4;
+				break;
+			case'F':
+				denb = denb + 1;
+				break;
+		}	
+		has++;
+	}
+	return denb;
+}

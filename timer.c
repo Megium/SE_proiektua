@@ -7,7 +7,7 @@
 #include "clock.h"
 #include "timer.h"
 #include "global.h"
-#include "processG.h"
+#include "loader.h"
 #include "scheduler.h"
 
 void *timer_f(){

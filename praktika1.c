@@ -7,7 +7,7 @@
 #include "clock.h"
 #include "timer.h"
 #include "global.h"
-#include "processG.h"
+#include "loader.h"
 #include "scheduler.h"
 
 sem_t sinc;
@@ -22,8 +22,10 @@ int POSIZIO;
 int CORE;
 int HARI;
 int QUAN;
+int KERNEL;
 
 struct cpu prozesagailu;
+memNag nagusi[100];
 
 
 int main(int argc, char const *argv[]){
@@ -35,6 +37,7 @@ int main(int argc, char const *argv[]){
 	CORE = atoi(argv[3]);
 	HARI = atoi(argv[4]);
 	QUAN = atoi(argv[5]);
+	KERNEL = 100;
 	POSIZIO = 10;
 
 	pthread_mutex_init(&mutex, 0);
@@ -57,6 +60,9 @@ int main(int argc, char const *argv[]){
 			prozesagailu.corekop[i].harikop[j].hariID = j;
 			prozesagailu.corekop[i].harikop[j].erabilgarri = 0;
 			prozesagailu.corekop[i].harikop[j].quantum = QUAN;
+			prozesagailu.corekop[i].harikop[j].pc = 0;
+			prozesagailu.corekop[i].harikop[j].ir = 0;
+			prozesagailu.corekop[i].harikop[j].ptbr = 0;
 		}
 		for (int k = 0; k < 10; k++)
 		{
@@ -72,6 +78,10 @@ int main(int argc, char const *argv[]){
 		}
 	}
 
+	//memoria nagusia hasieratu hutsik daudela ikustarazteko.
+	for(int i = 0; i < 100; i++){
+		nagusi[i] = ""-1";
+	}
 
 	pthread_create(&clock_hari, NULL, clock_f,NULL);
 	pthread_create(&timer_hari, NULL, timer_f,NULL);
