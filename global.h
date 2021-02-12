@@ -27,7 +27,10 @@ int egoera;
 int erabilera;
 //Prozesuak exekuzioan daraman denbora
 int pasatakoD;
-//aurreago gauza gehio	
+
+//3.1 zatia
+//Memori management struct-> pgb, code, data.
+struct MemoryManagement;
 };
 
 //Prozesuak sartzeko ilara, bertan buffer bat prozesuen informazioekin eta sorturiko prozesu kopuruarekin.
@@ -53,8 +56,16 @@ struct haria
 {
 	int hariID;
 	int erabilgarri;
-	int quantum;
 	struct pcb prozesua;
+	//int quantum;	//3.zatian prozesu bakoitzaren luzera exekutatu beharreko programak adieraziko du.
+
+	//program counter
+	int pc;
+	//instruction register
+	int ir;
+	//Page table base register
+	char ptbr;	//memoria nagusian orri taula non jasoa dagoen esaten du.
+	struct MMU;
 };
 struct core
 {
@@ -71,3 +82,22 @@ struct cpu
 {
 	struct core *corekop;
 };
+//////////////////
+//3.zatiko datuegiturak
+//////////////////
+
+//Memori management, programaren datuak memorian non dauden esango digun datu egitura.
+struct MemoryManagement
+{
+	char pgb[32];
+	char code[32];
+	char data[32];
+};
+struct MMU
+{
+	//TLB taula bat sartu hemen barnean.
+};
+//4 byteko hitza
+char hitza[32];
+//Memoria nagusia, 24 biteko helbide busarekin.
+hitza MemNag[16777216];		//0xFFFFFF-0x000000
